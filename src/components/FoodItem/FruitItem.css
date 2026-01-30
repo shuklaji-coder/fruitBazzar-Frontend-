@@ -1,0 +1,416 @@
+/* Premium Product Card */
+.fruit-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-xl);
+  background-color: var(--bg-primary);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  height: 100%;
+  position: relative;
+}
+
+.fruit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-green-light);
+}
+
+/* Add to Cart Animation States */
+.fruit-card.adding {
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fruit-card.added {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+  transition: all 0.4s ease;
+}
+
+/* Flying Cart Animation */
+.flying-cart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  z-index: 1000;
+  animation: flyToCart 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  box-shadow: 0 6px 25px rgba(16, 185, 129, 0.6);
+}
+
+@keyframes flyToCart {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(400%, -600%) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Add to Cart Button Animations */
+.btn-add-cart {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-add-cart:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.btn-add-cart:active:not(:disabled) {
+  transform: translateY(-1px) scale(0.95);
+  transition: all 0.1s ease;
+}
+
+.btn-add-cart:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-add-cart.added {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border-color: #10b981;
+  animation: successPulse 1s ease;
+  transform: scale(1.05);
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  }
+  25% {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 8px 30px rgba(16, 185, 129, 0.6);
+  }
+  100% {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+  }
+}
+
+/* Cart Badge Bounce Animation */
+.cart-badge {
+  animation: none;
+  transition: transform 0.3s ease;
+}
+
+.cart-badge.bounce {
+  animation: bounce 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: scale(1);
+  }
+  40%, 43% {
+    transform: scale(1.4);
+  }
+  70% {
+    transform: scale(1.2);
+  }
+  90% {
+    transform: scale(1.1);
+  }
+}
+
+/* Enhanced visual feedback */
+.fruit-card.adding .fruit-image {
+  transform: scale(1.1);
+  transition: transform 0.6s ease;
+}
+
+.fruit-card.adding .add-to-cart-btn {
+  transform: scale(0.9);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+/* Ripple effect for button */
+.btn-add-cart::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-add-cart.added::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Badges */
+.fruit-badges {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.badge-seasonal,
+.badge-bestseller,
+.badge-discount {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
+
+.badge-seasonal {
+  background-color: rgba(13, 148, 136, 0.95);
+  color: var(--white);
+}
+
+.badge-bestseller {
+  background-color: rgba(249, 115, 22, 0.95);
+  color: var(--white);
+}
+
+.badge-discount {
+  background-color: rgba(220, 38, 38, 0.95);
+  color: var(--white);
+}
+
+/* Image Wrapper */
+.fruit-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg-secondary);
+  aspect-ratio: 1;
+}
+
+.fruit-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.fruit-card:hover .fruit-image {
+  transform: scale(1.08);
+}
+
+.add-to-cart-btn {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-3);
+  background-color: var(--primary-green);
+  border: none;
+  padding: var(--space-3);
+  border-radius: var(--radius-full);
+  color: var(--white);
+  cursor: pointer;
+  font-size: var(--font-size-lg);
+  box-shadow: var(--shadow-lg);
+  transition: all var(--transition-base);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.fruit-card:hover .add-to-cart-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.add-to-cart-btn:hover {
+  background-color: var(--primary-green-dark);
+  transform: scale(1.1);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Card Body */
+.fruit-body {
+  flex-grow: 1;
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.fruit-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fruit-description {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.fruit-price-rating {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-4);
+  margin-top: auto;
+}
+
+.price-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.fruit-price {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--primary-green);
+  line-height: 1.2;
+}
+
+.fruit-price-old {
+  font-size: var(--font-size-sm);
+  color: var(--text-tertiary);
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+.fruit-rating {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.fruit-rating i {
+  color: #fbbf24;
+  font-size: var(--font-size-sm);
+}
+
+.fruit-rating small {
+  margin-left: var(--space-1);
+  color: var(--text-tertiary);
+  font-weight: 500;
+  font-size: var(--font-size-xs);
+}
+
+/* Card Footer */
+.fruit-footer {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-top: 1px solid var(--border-light);
+}
+
+.btn-add-cart {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--primary-green);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-add-cart:hover {
+  background-color: var(--primary-green-dark);
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .fruit-image-wrapper {
+    aspect-ratio: 4/3;
+  }
+
+  .fruit-title {
+    font-size: var(--font-size-base);
+  }
+
+  .fruit-description {
+    font-size: var(--font-size-xs);
+    -webkit-line-clamp: 2;
+  }
+
+  .fruit-price {
+    font-size: var(--font-size-lg);
+  }
+
+  .add-to-cart-btn {
+    opacity: 1;
+    transform: scale(1);
+    width: 40px;
+    height: 40px;
+    font-size: var(--font-size-base);
+  }
+
+  .fruit-footer {
+    flex-direction: column;
+  }
+
+  .btn-add-cart {
+    width: 100%;
+  }
+}

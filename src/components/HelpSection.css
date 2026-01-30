@@ -1,0 +1,166 @@
+/* Help Section - Mobile Friendly */
+
+.help-section {
+  padding: 4rem 0;
+  background: #f8fafc;
+}
+
+.help-card {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.help-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.help-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.help-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.help-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.15);
+  border-color: #10b981;
+}
+
+.help-item:first-child {
+  cursor: pointer;
+}
+
+.help-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.help-icon i {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.help-info {
+  flex: 1;
+  text-align: left;
+}
+
+.help-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.help-value {
+  font-size: 1.25rem;
+  color: #1f2937;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .help-section {
+    padding: 2rem 0;
+  }
+
+  .help-card {
+    padding: 2rem 1.5rem;
+    margin: 0 1rem;
+  }
+
+  .help-header h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .help-content {
+    gap: 1rem;
+  }
+
+  .help-item {
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+
+  .help-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .help-icon i {
+    font-size: 1.25rem;
+  }
+
+  .help-value {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .help-section {
+    padding: 1.5rem 0;
+  }
+
+  .help-card {
+    padding: 1.5rem 1rem;
+    margin: 0 0.5rem;
+    border-radius: 16px;
+  }
+
+  .help-header h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .help-item {
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  .help-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  .help-icon i {
+    font-size: 1.125rem;
+  }
+
+  .help-value {
+    font-size: 1rem;
+  }
+
+  .help-label {
+    font-size: 0.8rem;
+  }
+}
