@@ -169,6 +169,13 @@ const Checkout = () => {
       }
 
       const razorpay = new window.Razorpay(options);
+      
+      // Add error handlers
+      razorpay.on('payment.failed', function (response) {
+        console.error("Payment failed:", response.error);
+        alert(`Payment failed: ${response.error.description}`);
+      });
+
       razorpay.open();
     } catch (err) {
       const message = err?.response?.data?.message || err?.message || "Razorpay payment failed";
