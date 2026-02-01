@@ -11,16 +11,14 @@ const MobileNavbar = () => {
   const [showCart, setShowCart] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   
-  const { cartItems, fruits, getCartCount, getCartAmount } = useContext(StoreContext);
+  const { cartItems, fruits, getCartCount, getCartAmount, handleUserLogout } = useContext(StoreContext);
   const { searchQuery, setSearchQuery } = useSearch();
   const navigate = useNavigate();
 
   const userEmail = localStorage.getItem("email");
 
   const handleLogout = () => {
-    localStorage.removeItem("email");
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    handleUserLogout();
     navigate("/login");
     setIsMenuOpen(false);
   };

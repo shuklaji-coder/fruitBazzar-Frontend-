@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { auth, googleProvider, signInWithPopup } from "../../firebase";
 import api from "../../utils/api";
+import { StoreContext } from "../../context/StoreContext";
 import "./Login.css";
 
 const Login = () => {
+  const { handleUserLogin } = useContext(StoreContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -47,6 +49,9 @@ const Login = () => {
       localStorage.setItem("role", role);
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("isLoggedIn", "true");
+
+      // Notify StoreContext of user login
+      handleUserLogin(userEmail, token);
 
       setShowSuccess(true);
       
@@ -106,6 +111,9 @@ const Login = () => {
         localStorage.setItem("user", JSON.stringify(backendUser));
         localStorage.setItem("isLoggedIn", "true");
 
+        // Notify StoreContext of user login
+        handleUserLogin(userEmail, token);
+
         setShowSuccess(true);
         setTimeout(() => {
           navigate("/");
@@ -128,6 +136,9 @@ const Login = () => {
         localStorage.setItem("role", "USER");
         localStorage.setItem("user", JSON.stringify(userData));
         localStorage.setItem("isLoggedIn", "true");
+
+        // Notify StoreContext of user login
+        handleUserLogin(user.email, idToken);
 
         setShowSuccess(true);
         setTimeout(() => {

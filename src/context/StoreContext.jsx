@@ -8,6 +8,103 @@ export const StoreContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  // 👤 Get current user from localStorage
+  useEffect(() => {
+    const userEmail = localStorage.getItem("email");
+    const token = localStorage.getItem("token");
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    
+    if (userEmail && token && isLoggedIn === "true") {
+      setCurrentUser({
+        email: userEmail,
+        token: token
+      });
+      // Load user-specific cart
+      loadUserCart(userEmail);
+    } else {
+      // Load guest cart
+      loadGuestCart();
+    }
+  }, []);
+
+  // 🛒 Load user-specific cart from localStorage
+  const loadUserCart = (userEmail) => {
+    const userCartKey = `cart_${userEmail}`;
+    const savedCart = localStorage.getItem(userCartKey);
+    if (savedCart) {
+      try {
+        setCartItems(JSON.parse(savedCart));
+      } catch (error) {
+        console.error("Error parsing cart data:", error);
+        setCartItems({});
+      }
+    } else {
+      setCartItems({});
+    }
+  };
+
+  // 🛒 Load guest cart
+  const loadGuestCart = () => {
+    const guestCart = localStorage.getItem("guest_cart");
+    if (guestCart) {
+      try {
+        setCartItems(JSON.parse(guestCart));
+      } catch (error) {
+        console.error("Error parsing guest cart:", error);
+        setCartItems({});
+      }
+    } else {
+      setCartItems({});
+    }
+  };
+
+  // 💾 Save cart to user-specific storage
+  const saveCartToStorage = (cart) => {
+    if (currentUser) {
+      // Save to user-specific cart
+      const userCartKey = `cart_${currentUser.email}`;
+      localStorage.setItem(userCartKey, JSON.stringify(cart));
+    } else {
+      // Save to guest cart
+      localStorage.setItem("guest_cart", JSON.stringify(cart));
+    }
+  };
+
+  // 👤 Handle user login/logout
+  const handleUserLogin = (userEmail, token) => {
+    setCurrentUser({ email: userEmail, token: token });
+    
+    // Transfer guest cart to user cart if user cart is empty
+    const userCartKey = `cart_${userEmail}`;
+    const existingUserCart = localStorage.getItem(userCartKey);
+    const guestCart = localStorage.getItem("guest_cart");
+    
+    if (!existingUserCart && guestCart) {
+      // Transfer guest cart to user
+      localStorage.setItem(userCartKey, guestCart);
+      localStorage.removeItem("guest_cart");
+      loadUserCart(userEmail);
+    } else {
+      loadUserCart(userEmail);
+    }
+  };
+
+  const handleUserLogout = () => {
+    // Clear current user
+    setCurrentUser(null);
+    
+    // Clear user data from localStorage
+    localStorage.removeItem("email");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("role");
+    localStorage.removeItem("isLoggedIn");
+    
+    // Load guest cart
+    loadGuestCart();
+  };
 
   // 🍎 Fetch fruits from API with retry mechanism
   useEffect(() => {
@@ -88,17 +185,17 @@ export const StoreContextProvider = ({ children }) => {
     fetchFruits();
   }, []);
 
-  // 🛒 Add item to cart
+  // ➕ Add item to cart with user-specific storage
   const addToCart = (itemId) => {
-    console.log('StoreContext addToCart called with itemId:', itemId);
-    console.log('Current cartItems before:', cartItems);
-    
     setCartItems(prev => {
-      const newCart = {
-        ...prev,
-        [itemId]: (prev[itemId] || 0) + 1
-      };
-      console.log('New cartItems after:', newCart);
+      const newCart = { ...prev };
+      if (!newCart[itemId]) {
+        newCart[itemId] = 1;
+      } else {
+        newCart[itemId] += 1;
+      }
+      // Save to user-specific storage
+      saveCartToStorage(newCart);
       return newCart;
     });
   };
@@ -112,6 +209,8 @@ export const StoreContextProvider = ({ children }) => {
       } else {
         delete newCart[itemId];
       }
+      // Save to user-specific storage
+      saveCartToStorage(newCart);
       return newCart;
     });
   };
@@ -121,6 +220,8 @@ export const StoreContextProvider = ({ children }) => {
     setCartItems(prev => {
       const newCart = { ...prev };
       delete newCart[itemId];
+      // Save to user-specific storage
+      saveCartToStorage(newCart);
       return newCart;
     });
   };
@@ -128,6 +229,13 @@ export const StoreContextProvider = ({ children }) => {
   // 🧹 Clear entire cart
   const clearCart = () => {
     setCartItems({});
+    // Clear from user-specific storage
+    if (currentUser) {
+      const userCartKey = `cart_${currentUser.email}`;
+      localStorage.removeItem(userCartKey);
+    } else {
+      localStorage.removeItem("guest_cart");
+    }
   };
 
   // 🔢 Get total cart item count
@@ -179,7 +287,10 @@ export const StoreContextProvider = ({ children }) => {
         clearCart,
         getCartCount,
         getCartAmount,
-        retryFetch
+        retryFetch,
+        currentUser,
+        handleUserLogin,
+        handleUserLogout
       }}
     >
       {children}

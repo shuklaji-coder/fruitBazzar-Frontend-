@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { StoreContext } from "./context/StoreContext";
 import { useNavigate } from "react-router-dom";
 import CODSuccessPopup from "./components/CODSuccessPopup";
@@ -8,6 +8,29 @@ import "./Checkout.css";
 const Checkout = () => {
   const { getCartAmount, cartItems, clearCart } = useContext(StoreContext);
   const navigate = useNavigate();
+
+  // Check if Razorpay is loaded
+  useEffect(() => {
+    const checkRazorpay = () => {
+      if (window.Razorpay) {
+        console.log("Razorpay loaded successfully");
+      } else {
+        console.log("Razorpay not loaded, will load manually");
+        // Load Razorpay script if not already loaded
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        script.async = true;
+        script.onload = () => {
+          console.log("Razorpay script loaded manually");
+        };
+        document.body.appendChild(script);
+      }
+    };
+
+    // Check immediately and also after a delay
+    checkRazorpay();
+    setTimeout(checkRazorpay, 2000);
+  }, []);
 
   const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY || "rzp_test_RvkRUEHFCxl4Rz";
 
@@ -138,6 +161,12 @@ const Checkout = () => {
 
         theme: { color: "#0f172a" }
       };
+
+      // Check if Razorpay is available
+      if (!window.Razorpay) {
+        alert("Razorpay is not loaded. Please refresh the page and try again.");
+        return;
+      }
 
       const razorpay = new window.Razorpay(options);
       razorpay.open();
