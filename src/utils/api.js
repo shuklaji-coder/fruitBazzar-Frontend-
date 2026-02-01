@@ -64,13 +64,8 @@ api.interceptors.response.use(
       
       switch (status) {
         case 401:
-          // Unauthorized - Clear token and redirect to login
+          // Unauthorized - Let component handle it, don't auto-redirect
           console.error('🔒 Unauthorized: Token expired or invalid');
-          localStorage.removeItem('token');
-          localStorage.removeItem('email');
-          localStorage.removeItem('user');
-          localStorage.setItem('isLoggedIn', 'false');
-          window.location.href = '/login';
           break;
           
         case 403:

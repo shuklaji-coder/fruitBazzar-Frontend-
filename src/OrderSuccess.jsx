@@ -6,7 +6,6 @@ const OrderSuccess = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Scroll to top when component mounts
     window.scrollTo(0, 0);
   }, []);
 
@@ -50,7 +49,7 @@ const OrderSuccess = () => {
           </div>
           <div className="detail-item">
             <span className="label">Estimated Delivery:</span>
-            <span className="value">2-3 Business Days</span>
+            <span className="value">Arriving shortly</span>
           </div>
           <div className="detail-item">
             <span className="label">Payment Method:</span>
@@ -60,16 +59,10 @@ const OrderSuccess = () => {
 
         {/* Action Buttons */}
         <div className="action-buttons">
-          <button 
-            className="btn btn-outline"
-            onClick={handleViewOrders}
-          >
+          <button className="btn btn-outline" onClick={handleViewOrders}>
             View My Orders
           </button>
-          <button 
-            className="btn btn-primary"
-            onClick={handleContinueShopping}
-          >
+          <button className="btn btn-primary" onClick={handleContinueShopping}>
             Continue Shopping
           </button>
         </div>

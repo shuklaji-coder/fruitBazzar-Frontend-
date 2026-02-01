@@ -43,14 +43,6 @@ const App = () => {
       {/* 🌐 PUBLIC ROUTES */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route 
-        path="/my-orders" 
-        element={
-          <Layout>
-            <MyOrders />
-          </Layout>
-        } 
-      />
 
       {/* 🔐 PROTECTED ROUTES */}
       <Route element={<ProtectedRoute />}>
@@ -113,6 +105,15 @@ const App = () => {
           element={
             <Layout>
               <OrderSuccess />
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/my-orders"
+          element={
+            <Layout>
+              <MyOrders />
             </Layout>
           }
         />

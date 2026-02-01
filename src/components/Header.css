@@ -8,12 +8,12 @@
 .hero-slider {
   position: relative;
   width: 100%;
-  min-height: 280px;
-  border-radius: 0;
+  min-height: 320px;
+  border-radius: 22px;
   overflow: hidden;
   background: #0b0b0b;
-  box-shadow: none;
-  border: none;
+  box-shadow: 0 18px 34px rgba(12, 43, 22, 0.16);
+  border: 1px solid #e3ecd9;
 }
 
  .hero-slider::after {
@@ -39,18 +39,18 @@
  }
 
  .hero-image {
-   position: absolute;
-   inset: 0;
-   width: 100%;
-   height: 100%;
-   object-fit: cover;
-   transform: scale(1);
-   transform-origin: 70% 50%;
-   filter: saturate(1.1) contrast(1.15) brightness(1.05);
-   border-radius: 0;
-   box-shadow: none;
-   z-index: 1;
- }
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1);
+  transform-origin: 70% 50%;
+  filter: saturate(1.15) contrast(1.05) brightness(1.08);
+  border-radius: 22px;
+  box-shadow: none;
+  z-index: 1;
+}
 
  .hero-slide.active .hero-image {
    animation: heroZoom 4500ms ease-out forwards;
@@ -66,27 +66,27 @@
  }
 
  .hero-gradient {
-   position: absolute;
-   inset: 0;
-   background:
-     linear-gradient(90deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.65) 35%, rgba(0, 0, 0, 0.25) 60%, rgba(0, 0, 0, 0.05) 100%),
-     radial-gradient(900px 520px at 18% 45%, rgba(0, 0, 0, 0.4), transparent 62%);
-   z-index: 2;
- }
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(10, 40, 20, 0.7) 0%, rgba(12, 58, 26, 0.5) 40%, rgba(18, 72, 34, 0.25) 65%, rgba(18, 72, 34, 0.05) 100%),
+    radial-gradient(900px 520px at 18% 45%, rgba(12, 58, 26, 0.35), transparent 62%);
+  z-index: 2;
+}
 
  .hero-overlay {
-   position: absolute;
-   inset: 0;
-   z-index: 3;
-   height: 100%;
-   padding: 16px;
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: flex-start;
-   text-align: left;
-   gap: 24px;
- }
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  height: 100%;
+  padding: 28px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  gap: 24px;
+}
 
  .hero-copy {
    max-width: 50%;
@@ -98,26 +98,25 @@
  }
 
  .hero-overlay h1 {
-   color: #d6b25e;
-   font-size: clamp(1.8rem, 4.5vw, 2.8rem);
-   font-weight: 700;
-   letter-spacing: 0.02em;
-   line-height: 1.1;
-   margin-bottom: 0.75rem;
-   text-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-   animation: heroTextIn 650ms ease-out;
-   text-transform: uppercase;
- }
+  color: #f3ffe8;
+  font-size: clamp(2rem, 4.2vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.08;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 10px 26px rgba(6, 24, 12, 0.6);
+  animation: heroTextIn 650ms ease-out;
+}
 
  .hero-overlay p {
-   color: rgba(214, 178, 94, 0.92);
-   font-size: clamp(0.875rem, 2.1vw, 1rem);
-   font-weight: 500;
-   line-height: 1.4;
-   margin-bottom: 1.25rem;
-   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-   animation: heroTextIn 750ms ease-out;
- }
+  color: rgba(245, 255, 246, 0.9);
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: 1.4rem;
+  text-shadow: 0 6px 16px rgba(6, 24, 12, 0.35);
+  animation: heroTextIn 750ms ease-out;
+}
 
  @keyframes heroTextIn {
    from {
@@ -131,29 +130,29 @@
  }
 
  .hero-cta {
-   display: inline-flex;
-   align-items: center;
-   justify-content: center;
-   padding: 1rem 2rem;
-   border-radius: 999px;
-   background: rgba(0, 0, 0, 0.18);
-   color: #d6b25e;
-   font-weight: 600;
-   font-size: 0.875rem;
-   text-decoration: none;
-   box-shadow: none;
-   border: 1.5px solid rgba(214, 178, 94, 0.85);
-   transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
-   animation: heroCtaPulse 950ms ease-out 1;
-   min-height: 44px;
-   min-width: 120px;
- }
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.95rem 2.1rem;
+  border-radius: 999px;
+  background: #f6fff8;
+  color: #0f5a26;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  box-shadow: 0 10px 20px rgba(10, 40, 20, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+  animation: heroCtaPulse 950ms ease-out 1;
+  min-height: 44px;
+  min-width: 140px;
+}
 
  .hero-cta:hover {
-   transform: translateY(-1px);
-   background: rgba(214, 178, 94, 0.10);
-   border-color: rgba(214, 178, 94, 1);
- }
+  transform: translateY(-1px);
+  background: #ecfff0;
+  border-color: #f6fff8;
+}
 
  .hero-cta:active {
    transform: translateY(0px) scale(0.98);
@@ -172,19 +171,19 @@
  }
 
  .hero-dots {
-   position: absolute;
-   left: 50%;
-   bottom: 14px;
-   transform: translateX(-50%);
-   display: flex;
-   gap: 8px;
-   z-index: 4;
-   padding: 8px 10px;
-   border-radius: 999px;
-   background: rgba(255, 255, 255, 0.18);
-   border: 1px solid rgba(255, 255, 255, 0.22);
-   backdrop-filter: blur(10px);
- }
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 4;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
 
  .hero-dot {
    width: 8px;

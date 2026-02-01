@@ -90,10 +90,17 @@ export const StoreContextProvider = ({ children }) => {
 
   // 🛒 Add item to cart
   const addToCart = (itemId) => {
-    setCartItems(prev => ({
-      ...prev,
-      [itemId]: (prev[itemId] || 0) + 1
-    }));
+    console.log('StoreContext addToCart called with itemId:', itemId);
+    console.log('Current cartItems before:', cartItems);
+    
+    setCartItems(prev => {
+      const newCart = {
+        ...prev,
+        [itemId]: (prev[itemId] || 0) + 1
+      };
+      console.log('New cartItems after:', newCart);
+      return newCart;
+    });
   };
 
   // ➖ Remove one quantity from cart

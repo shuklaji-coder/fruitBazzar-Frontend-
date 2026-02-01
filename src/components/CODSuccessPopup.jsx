@@ -38,12 +38,18 @@ const CODSuccessPopup = ({
 
   const handleGoToOrders = () => {
     handleClose();
-    navigate('/my-orders');
+    // Navigate to my orders after popup closes
+    setTimeout(() => {
+      navigate('/my-orders');
+    }, 300);
   };
 
   const handleContinueShopping = () => {
     handleClose();
-    navigate('/');
+    // Navigate to home after popup closes
+    setTimeout(() => {
+      navigate('/');
+    }, 300);
   };
 
   if (!isVisible) return null;

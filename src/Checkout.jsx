@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { StoreContext } from "./context/StoreContext";
 import { useNavigate } from "react-router-dom";
 import CODSuccessPopup from "./components/CODSuccessPopup";
-import api from "./utils/api";
+import axios from "axios";
 import "./Checkout.css";
 
 const Checkout = () => {
@@ -17,6 +17,7 @@ const Checkout = () => {
 
   const [paymentMethod, setPaymentMethod] = useState("COD");
   const [showCODSuccess, setShowCODSuccess] = useState(false);
+  const [orderData, setOrderData] = useState(null);
 
   const [deliveryAddress, setDeliveryAddress] = useState({
     name: "",
@@ -30,7 +31,7 @@ const Checkout = () => {
   const backendItems = Object.entries(cartItems)
     .filter(([_, qty]) => qty > 0)
     .map(([id, qty]) => ({
-      productId: id,
+      productId: String(id),
       quantity: qty
     }));
 
@@ -56,20 +57,31 @@ const Checkout = () => {
         return;
       }
 
+      // Create order data
       const orderData = {
-        userEmail: localStorage.getItem("email"),
+        userEmail: localStorage.getItem("email") || "shuklarohan374@gmail.com",
         items: backendItems,
         totalAmount,
+        subtotal,
+        shippingFee,
         paymentStatus: "COD",
-        billingAddress
+        paymentMethod: "COD",
+        billingAddress,
+        deliveryAddress,
+        status: "Processing"
       };
 
-      await api.post('/api/orders/place', orderData);
+      // Save order to backend API
+      const response = await axios.post('https://backend-project-fruit-baazaar-15.onrender.com/api/orders/place', orderData);
 
+      console.log('COD order placed successfully:', response.data);
       clearCart();
       setShowCODSuccess(true);
+      setOrderData(orderData);
     } catch (err) {
-      alert("COD order failed");
+      console.error('COD order error:', err);
+      const message = err?.response?.data?.message || err?.message || "COD order failed";
+      alert(message);
     }
   };
 
@@ -81,8 +93,8 @@ const Checkout = () => {
         return;
       }
 
-      // 1️⃣ Crea te Razorpay order from backend
-      const res = await api.post('/api/payment/create-order', { amount: totalAmount });
+      // 1️⃣ Create Razorpay order from backend
+      const res = await axios.post('https://backend-project-fruit-baazaar-15.onrender.com/api/payment/create-order', { amount: totalAmount });
 
       const razorOrder = res.data;
 
@@ -97,16 +109,23 @@ const Checkout = () => {
 
         handler: async function (response) {
           const orderData = {
-            userEmail: localStorage.getItem("email"),
+            userEmail: localStorage.getItem("email") || "shuklarohan374@gmail.com",
             items: backendItems,
             totalAmount,
+            subtotal,
+            shippingFee,
             paymentStatus: "PAID",
+            paymentMethod: "ONLINE",
             paymentId: response.razorpay_payment_id,
-            billingAddress
+            billingAddress,
+            deliveryAddress,
+            status: "Processing"
           };
 
-          await api.post('/api/orders/place', orderData);
+          // Save order to backend API
+          await axios.post('https://backend-project-fruit-baazaar-15.onrender.com/api/orders/place', orderData);
 
+          console.log('Razorpay order placed successfully:', orderData);
           clearCart();
           navigate("/order-success");
         },
@@ -114,7 +133,7 @@ const Checkout = () => {
         prefill: {
           name: deliveryAddress.name,
           contact: deliveryAddress.phone,
-          email: localStorage.getItem("email")
+          email: localStorage.getItem("email") || "shuklarohan374@gmail.com"
         },
 
         theme: { color: "#0f172a" }
@@ -123,7 +142,8 @@ const Checkout = () => {
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (err) {
-      alert("Razorpay payment failed");
+      const message = err?.response?.data?.message || err?.message || "Razorpay payment failed";
+      alert(message);
     }
   };
 
@@ -277,7 +297,7 @@ const Checkout = () => {
       <CODSuccessPopup
         isVisible={showCODSuccess}
         onClose={() => navigate("/order-success")}
-        orderData={{
+        orderData={orderData || {
           orderId: `ORD${Date.now()}`,
           subtotal,
           shippingFee,
