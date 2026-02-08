@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import EzploreFruit from "./pages/ExploreFruit/EzploreFruit";
 import Contact from "./pages/ExploreFruit/Contact";
 import Home from "./pages/ExploreFruit/Home";
+import AnimatedHome from "./pages/Home/AnimatedHome";
 import FruitDetails from "./fruitdetails/FruitDetails";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
@@ -48,11 +49,7 @@ const App = () => {
       <Route element={<ProtectedRoute />}>
         <Route
           path="/"
-          element={
-            <Layout>
-              <Home />
-            </Layout>
-          }
+          element={<AnimatedHome />}
         />
 
         <Route
